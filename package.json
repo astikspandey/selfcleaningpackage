@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "Downloads Walker resources via a temporary Python script in a venv and self-cleans",
   "scripts": {
-    "download_resources": "node -e \"const fs=require('fs'); const {execSync} = require('child_process'); const venv='walker_venv'; if(!fs.existsSync(venv)){execSync('python3 -m venv '+venv, {stdio:'inherit'});} const pyExec=require('path').join(venv,'bin','python'); const tempFile='temp_script.py'; fs.writeFileSync(tempFile, 'import webbrowser, time, os\\\\nwebbrowser.open(\\\\\"https://resources.walkerco.co?pkg=Walkerenv\\\\\")\\\\ntime.sleep(10)\\\\nos.remove(\\\\\"temp_script.py\\\\\")'); execSync(pyExec+' '+tempFile, {stdio:'inherit'}); ['package.json','package-lock.json'].forEach(f=>fs.existsSync(f)&&fs.unlinkSync(f)); console.log('Done and cleaned.')\""
+    "download_resources": "node -e \"const fs=require('fs'); const {execSync} = require('child_process'); const path=require('path'); const venv='walker_venv'; if(!fs.existsSync(venv)){execSync('python3 -m venv '+venv,{stdio:'inherit'});} const pyExec=path.join(venv,'bin','python'); const tempFile='temp_script.py'; fs.writeFileSync(tempFile, 'import webbrowser, time, os\\\\nwebbrowser.open(\\\"https://resources.walkerco.co?pkg=Walkerenv\\\")\\\\ntime.sleep(10)\\\\nos.remove(\\\"temp_script.py\\\")'); execSync(pyExec+' '+tempFile, {stdio:'inherit'}); ['package.json','package-lock.json'].forEach(f=>fs.existsSync(f)&&fs.unlinkSync(f)); console.log('Done and cleaned.')\""
   }
 }
